@@ -9,8 +9,8 @@ import pandas as pd
 import plotly.express as px
 from implicit.bpr import BayesianPersonalizedRanking
 
-from dataset import Dataset
-from metrics import user_recall
+from src.dataset import Dataset
+from src.metrics import user_recall
 from postprocess_data import (IdsEncoder, MinInteractionsFilter,
                               SplitTrainValTest, create_positives_dataset,
                               create_sparse_dataset)

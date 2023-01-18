@@ -14,7 +14,7 @@ class Dataset:
 
     def get_data(self) -> pd.DataFrame:
         if self.name == 'ml-1m':
-            working_dir = Path('./data/ml-1m')
+            working_dir = Path('../data/ml-1m')
             if not working_dir.exists():
                 working_dir.mkdir(parents=True)
 
@@ -40,7 +40,7 @@ class Dataset:
             )
             return data
         elif self.name == 'bcr':
-            working_dir = Path('./data/bcr')
+            working_dir = Path('../data/bcr')
             if not working_dir.exists():
                 working_dir.mkdir(parents=True)
 
@@ -73,7 +73,7 @@ class Dataset:
             )
             return data
         elif self.name == 'pin':
-            working_dir = Path('./data/pin')
+            working_dir = Path('../data/pin')
             if not working_dir.exists():
                 working_dir.mkdir(parents=True)
 
@@ -82,7 +82,7 @@ class Dataset:
                 data_url = 'https://github.com/edervishaj/pinterest-recsys-dataset/raw/main/pinterest.csv'
                 wget.download(data_url, str(working_dir))
 
-            data = pl.read_csv('pinterest.csv')
+            data = pl.read_csv('../pinterest.csv')
 
             data = (
                 data

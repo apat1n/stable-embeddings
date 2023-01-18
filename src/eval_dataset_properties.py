@@ -1,4 +1,4 @@
-from dataset import Dataset
+from src.dataset import Dataset
 from postprocess_data import MinInteractionsFilter, IdsEncoder
 
 if __name__ == '__main__':
