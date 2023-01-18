@@ -1,0 +1,9 @@
+wget~=3.2
+polars~=0.15.11
+kaleido~=0.2.1
+plotly~=5.11.0
+pandas~=1.4.3
+numpy~=1.23.5
+faiss-cpu~=1.7.3
+implicit~=0.6.2
+scipy~=1.9.0
