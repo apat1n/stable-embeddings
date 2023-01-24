@@ -106,20 +106,14 @@ def create_sparse_dataset(data: pl.DataFrame, shape=None) -> csr_matrix:
     return csr_matrix((np.ones(len(data)), (data['user_id'], data['item_id'])), shape=shape)
 
 
-def create_positives_dataset(data: pl.DataFrame) -> Dict[int, Set[int]]:
+def create_positives_dataset(data: pl.DataFrame, apply_set: bool = True) -> Dict[int, Set[int]]:
     positives = (
         data
         .groupby('user_id')
         .agg(pl.col('item_id').sort_by('event_ts'))
         .to_dict(as_series=False)
     )
-    return {k: set(v) for k, v in zip(positives['user_id'], positives['item_id'])}
-
-
-def create_sessions_dataset(data: pl.DataFrame) -> List[List[int]]:
-    return list((
-        data
-        .groupby('user_id')
-        .agg(pl.col('item_id').sort_by('event_ts'))
-        .to_dict(as_series=False)
-    ).values())
+    return {
+        k: set(v) if apply_set else list(v)
+        for k, v in zip(positives['user_id'], positives['item_id'])
+    }
