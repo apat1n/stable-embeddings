@@ -1,7 +1,6 @@
 import zipfile
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 import polars as pl
 import wget
@@ -67,9 +66,8 @@ class Dataset:
                 .with_columns([
                     pl.col('User-ID').alias('user_id'),
                     pl.col('ISBN').alias('item_id'),
-                    pl.Series(np.arange(len(data))).alias('event_ts')
                 ])
-                .select(['user_id', 'item_id', 'event_ts'])
+                .select(['user_id', 'item_id'])
             )
             return data
         elif self.name == 'pin':
@@ -82,16 +80,15 @@ class Dataset:
                 data_url = 'https://github.com/edervishaj/pinterest-recsys-dataset/raw/main/pinterest.csv'
                 wget.download(data_url, str(working_dir))
 
-            data = pl.read_csv('../pinterest.csv')
+            data = pl.read_csv(data_path)
 
             data = (
                 data
                 .with_columns([
                     pl.col('board_id').alias('user_id'),
                     pl.col('image').alias('item_id'),
-                    (pl.Series(np.arange(len(data)))).alias('event_ts')
                 ])
-                .select(['user_id', 'item_id', 'event_ts'])
+                .select(['user_id', 'item_id'])
             )
             return data
 
