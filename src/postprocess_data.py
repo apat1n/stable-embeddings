@@ -60,14 +60,6 @@ class MinInteractionsFilter:
         assert 'user_id' in data.columns
         assert 'item_id' in data.columns
 
-        filtered_users = (
-            data
-            .groupby('user_id')
-            .count()
-            .filter(pl.col('count') >= self.min_user_interactions)
-            .select('user_id')
-        )
-
         filtered_items = (
             data
             .groupby('item_id')
@@ -75,12 +67,18 @@ class MinInteractionsFilter:
             .filter(pl.col('count') >= self.min_item_interactions)
             .select('item_id')
         )
+        data = data.join(filtered_items, on='item_id')
 
-        return (
+        filtered_users = (
             data
-            .join(filtered_users, on='user_id')
-            .join(filtered_items, on='item_id')
+            .groupby('user_id')
+            .count()
+            .filter(pl.col('count') >= self.min_user_interactions)
+            .select('user_id')
         )
+        data = data.join(filtered_users, on='user_id')
+
+        return data
 
 
 class SplitTrainValTest:
